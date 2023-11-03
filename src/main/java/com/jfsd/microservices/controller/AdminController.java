@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -264,19 +265,23 @@ public class AdminController {
 	       return "redirect:/admin/adminleavetypesec";
 	   }
 	   
-	   @GetMapping("updateDepartment")
-	   public ModelAndView showUpdateDepartmentForm(@RequestParam("id") Long id) {
-	       ModelAndView mav = new ModelAndView("updateDepartment");
-	       AddDepartment department = adminService.getDepartmentById(id);
+	   
+	   
+	   
+	   @GetMapping("updateDepartment/{code}")
+	   public ModelAndView showUpdateDepartmentForm(@PathVariable String code) {
+	       ModelAndView mav = new ModelAndView("updateDepartment"); // Specify the name of your update form JSP
+	       AddDepartment department = adminService.findByCode(code);
 	       mav.addObject("department", department);
 	       return mav;
 	   }
-
+	   
 	   @PostMapping("updateDepartment")
 	   public ModelAndView updateDepartment(@ModelAttribute AddDepartment updatedDepartment) {
-	       adminService.updateDepartment(null,updatedDepartment);
-	       ModelAndView mav = new ModelAndView("redirect:/admin/admindeptsec");
+	       adminService.updateDepartment(updatedDepartment);
+	       ModelAndView mav = new ModelAndView("redirect:/admin/admindeptsec"); // Specify the URL to redirect to
 	       return mav;
 	   }
-	   
+
+
 }

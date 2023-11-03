@@ -71,7 +71,7 @@
 <body>
 <jsp:include page="adminnav.jsp"></jsp:include>
 
-<form action="updateDepartment" method="post">
+<form action="/admin/updateDepartment" method="post">
     <h1>Update Department</h1>
     <table>
         <tr>
@@ -90,21 +90,23 @@
                 <label for="departmentshortform"><b>Department Short Form</b></label>
             </td>
             <td>
-                <input type="text" placeholder="Enter department short form" name="departmentshortform" id="departmentshortform" value="${department.departmentshortform}" required />
+                <input type="text" placeholder="Enter department short form" name="departmentshortform" id="departmentshortform" required value="${department.departmentshortform}" />
             </td>
         </tr>
 
         
+        <tr>
             <td>
                 <i class="fas fa-calendar"></i>
                 <label for="code"><b>Code</b></label>
             </td>
             <td>
-                <input type="text" name="code" id="code" value="${department.code}" required />
+                <input type="text" name="code" id="code" required value="${department.code}" />
             </td>
         </tr>
     </table>
     <input type="submit" value="Update" />
 </form>
+
 </body>
 </html>

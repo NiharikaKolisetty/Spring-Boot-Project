@@ -113,7 +113,7 @@ a.delete-button:hover, a.update-button:hover {
     <td>${department.code}</td>
      <td>
             <a href="<c:url value='deleteDepartmentByCode/${department.code}' />" class="delete-button">Delete</a>            
-            <a href="updateDepartment?id=${department.id}" class="update-button">Update</a>
+           <a href="<c:url value='/admin/updateDepartment/${department.code}' />" class="update-button">Update</a>
         </td>
 </tr>
     </c:forEach>

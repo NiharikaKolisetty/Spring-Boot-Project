@@ -2,7 +2,7 @@ package com.jfsd.microservices.service;
 
 import java.util.Date;
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -103,22 +103,14 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Override
     public AddDepartment getDepartmentById(Long id) {
-        return addDepartmentRepository.findById(id).orElse(null);
+		 Optional<AddDepartment> department = addDepartmentRepository.findById(id);
+		 if (department.isPresent()) {
+	            return department.get();
+	        } else {
+	            return null; 
+	        }
     }
 	
-	 @Override
-	 @Transactional
-	    public AddDepartment updateDepartment(Long id, AddDepartment updatedDepartment) {
-	        AddDepartment existingDepartment = addDepartmentRepository.findById(id).orElse(null);
-	        if (existingDepartment != null) {
-	            existingDepartment.setDepartmentname(updatedDepartment.getDepartmentname());
-	            existingDepartment.setDepartmentshortform(updatedDepartment.getDepartmentshortform());
-	            existingDepartment.setCode(updatedDepartment.getCode());
-	            existingDepartment.setCreatedDate(updatedDepartment.getCreatedDate());
-	            return addDepartmentRepository.save(existingDepartment);
-	        }
-	        return null;
-	    }
 
 	@Override
 	public AddManager addManager(String managerid, String username, String password) {
@@ -204,5 +196,35 @@ public class AdminServiceImpl implements AdminService{
 		return adminRepository.countByLeaveTypes();
 	}
 
+	@Override
+	public AddDepartment findByCode(String code) {
+		// TODO Auto-generated method stub
+		return addDepartmentRepository.findByCode(code);
+	}
+
+	@Override
+	public AddDepartment updateDepartment(AddDepartment updatedDepartment) {
+		// Fetch the existing department by code
+        AddDepartment existingDepartment = addDepartmentRepository.findByCode(updatedDepartment.getCode());
+
+        if (existingDepartment != null) {
+            // Update the properties of the existing department with the values from the updated department
+            existingDepartment.setDepartmentname(updatedDepartment.getDepartmentname());
+            existingDepartment.setDepartmentshortform(updatedDepartment.getDepartmentshortform());
+            
+
+            // Save the updated department to the repository
+            addDepartmentRepository.save(existingDepartment);
+
+            return existingDepartment; // Return the updated department
+        } else {
+           
+            return null;
+        }
+	}
+
+	
+
+	
 	
 }

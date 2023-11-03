@@ -30,7 +30,7 @@ public interface AdminService {
 	 
 	 public AddDepartment getDepartmentById(Long id);
 
-	 public AddDepartment updateDepartment(Long id, AddDepartment updatedDepartment);
+	 
 	 
 	 public AddManager addManager(String managerid, String username, String password);
 	 
@@ -55,5 +55,9 @@ public interface AdminService {
 	 public long countDepartments();
 	 
 	 public long countLeaveTypes();
+
+	 public AddDepartment findByCode(String code);
+	 
+	 public AddDepartment updateDepartment(AddDepartment updatedDepartment);
 
 }
