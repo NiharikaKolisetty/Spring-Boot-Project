@@ -24,4 +24,8 @@ public interface EmployeeService {
     Long countCanceledLeaves(String username);
     
     Long countRejectedLeaves(String username);
+    
+    public void sendEmail(String to, String subject, String text);
+
+//	public Employee getEmployeeProfile(Long empid);
 }

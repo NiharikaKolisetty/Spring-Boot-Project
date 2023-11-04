@@ -2,6 +2,8 @@ package com.jfsd.microservices.controller;
 
 
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jfsd.microservices.model.AddDepartment;
 import com.jfsd.microservices.model.AddLeaveType;
 import com.jfsd.microservices.model.Employee;
 import com.jfsd.microservices.model.EmployeeLeaveForm;
+import com.jfsd.microservices.repository.EmployeeRepository;
 import com.jfsd.microservices.service.AdminService;
 import com.jfsd.microservices.service.EmployeeService;
 
@@ -28,14 +33,15 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("employee")
 public class EmployeeController {
 	
+	
+	
+	
 	 @Autowired 
 	 private AdminService adminService;
 	 
 	 @Autowired 
 	 private EmployeeService employeeService;
 	 
-	 
-
 	   @GetMapping("/")
 	   @ResponseBody
 	   public String employee()
@@ -128,48 +134,82 @@ public class EmployeeController {
 	       return mav;
 	   }
 
-
 	   @GetMapping("empprofile")
 		public ModelAndView empprofile() {
 			ModelAndView mav= new ModelAndView();
 			mav.setViewName("empprofile");
 			return mav;
 		}
-	   
+
+//	   @GetMapping("empprofile")
+//	   public ModelAndView empprofile(@RequestParam("empid") Long empid) {
+//	       ModelAndView mav = new ModelAndView("empprofile");
+//	       mav.addObject("employee", employee);
+//	       // Retrieve the employee's profile, including the image data
+//	       Employee employee = employeeService.getEmployeeProfile(empid);
+//
+//	       if (employee != null) {
+//	           // You may need to convert the image data to a suitable format
+//	           // For example, if the image data is stored as bytes, you can convert it to Base64
+//	           byte[] imageData = employee.getData();
+//	           if (imageData != null) {
+//	               String base64Image = Base64.getEncoder().encodeToString(imageData);
+//	               employee.setBase64ImageData(base64Image);
+//	           }
+//	           
+//	       }
+//
+//	       return mav;
+//	   }
+//	   
 	   @PostMapping("register")
 	   public ModelAndView registerEmployee(HttpServletRequest request) {
-		   
-		   
-		    String username = request.getParameter("username");
-	        String gender = request.getParameter("gender");
-	        String  dob = request.getParameter("dob");
-	        String department = request.getParameter("department");
-	        double salary = Double.parseDouble(request.getParameter("salary"));
-	        String email = request.getParameter("email");
-	        String password = request.getParameter("password");
-	        String contact = request.getParameter("contact");
-	        
-	        Employee employee = new Employee();
-	        employee.setUsername(username);
-	        employee.setGender(gender);
-	        employee.setDob(dob);
-	        employee.setDepartment(department);
-	        employee.setSalary(salary);
-	        employee.setEmail(email);
-	        employee.setPassword(password);
-	        employee.setContact(contact);
-	        
-	        employeeService.registerEmployee(employee);
-	        
-	        ModelAndView modelAndView = new ModelAndView("empreg");
-	        
-	       
-	        modelAndView.addObject("message", "Employee registration successful.");
+	       String username = request.getParameter("username");
+	       String gender = request.getParameter("gender");
+	       String dob = request.getParameter("dob");
+	       String department = request.getParameter("department");
+	       double salary = Double.parseDouble(request.getParameter("salary"));
+	       String email = request.getParameter("email");
+	       String password = request.getParameter("password");
+	       String contact = request.getParameter("contact");
 
-	        return modelAndView;
+	       Employee employee = new Employee();
+	       employee.setUsername(username);
+	       employee.setGender(gender);
+	       employee.setDob(dob);
+	       employee.setDepartment(department);
+	       employee.setSalary(salary);
+	       employee.setEmail(email);
+	       employee.setPassword(password);
+	       employee.setContact(contact);
+
+	       // Register the employee
+	       employeeService.registerEmployee(employee);
+	       
+//	       // Handle image upload
+//	       if (!file.isEmpty()) {
+//	           try {
+//	               // Set the image data to the Employee entity
+//	               employee.setData(file.getBytes());
+//	           } catch (IOException e) {
+//	               e.printStackTrace();
+//	               // Handle the exception if necessary
+//	           }
+//	       }
+
+	       // Send an email to the specified email address
+	       String subject = "Employee Registration Confirmation";
+	       String text = "Thank you for registering as an employee. Your registration is successful.";
+	       employeeService.sendEmail(email, subject, text);
+
+	       ModelAndView modelAndView = new ModelAndView("empreg");
+	       modelAndView.addObject("message", "Employee registration successful.");
+	       return modelAndView;
 	   }
 	   
-	   @PostMapping("checkemplogin")
+	  
+
+	@PostMapping("checkemplogin")
 	   public ModelAndView checkemplogin(String username, String password, HttpServletRequest request) {
 	       Employee employee = employeeService.checkemplogin(username, password);
 	       ModelAndView mav = new ModelAndView();

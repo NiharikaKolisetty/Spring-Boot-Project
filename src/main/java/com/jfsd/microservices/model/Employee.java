@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,6 +25,9 @@ public class Employee {
 	private String email;
 	private String password;
 	private String contact;
+//	@Lob
+//    private byte[] data;
+//	private String base64ImageData;
 	public Long getEmpid() {
 		return empid;
 	}
@@ -78,6 +82,19 @@ public class Employee {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
+//	public byte[] getData() {
+//		return data;
+//	}
+//	public void setData(byte[] data) {
+//		this.data = data;
+//	}
+//	public String getBase64ImageData() {
+//		return base64ImageData;
+//	}
+//	public void setBase64ImageData(String base64ImageData) {
+//		this.base64ImageData = base64ImageData;
+//	}
+	
 	
 
 }

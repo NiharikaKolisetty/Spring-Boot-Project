@@ -8,5 +8,7 @@
 </head>
 <body>
 This is profile page 
+<img src="data:image/jpeg;base64,${employee.base64ImageData}" alt="Profile Image" width="200" height="200" />
+
 </body>
 </html>

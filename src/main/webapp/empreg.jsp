@@ -108,7 +108,7 @@
 </head>
 
 <body>
-    <form action="register" method="post" onsubmit="return validateForm()">
+    <form action="register" method="post" enctype="multipart/form-data">
         <h1>Employee Registration</h1>
         <div style="text-align: center; color: red; ">
         <c:if test="${not empty message}">
@@ -202,6 +202,17 @@
                         <span id="contactError" class="error-message"></span>
                 </td>
             </tr>
+            <!--
+<tr>
+    <td>
+        <i class="fa fa-file"></i>
+        <label for="file"><b>Upload Image</b></label>
+    </td>
+    <td>
+        <input type="file" name="file" accept="image/*" required />
+    </td>
+</tr>
+-->
         </table>
         <input type="submit" value="Register" />
         <p> Already Have an account?<b><a href="emplogin" class="login-link">Login Here</a></b></p>
@@ -265,8 +276,5 @@
 
     document.querySelector('form').onsubmit = validateForm;
 </script>
-  
-    
 </body>
-
 </html>
