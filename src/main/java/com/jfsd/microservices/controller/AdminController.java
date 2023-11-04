@@ -2,6 +2,7 @@ package com.jfsd.microservices.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -265,6 +266,20 @@ public class AdminController {
 	       return "redirect:/admin/adminleavetypesec";
 	   }
 	   
+	   @GetMapping("updateLeaveType/{leaveid}")
+	   public ModelAndView showUpdateLeaveTypeForm(@PathVariable Long leaveid) {
+	       ModelAndView mav = new ModelAndView("updateLeaveType"); // Specify the name of your update form JSP
+	       AddLeaveType leavetype1 = adminService.findByLeaveid(leaveid);
+	       mav.addObject("leavetype1", leavetype1); // Add leavetype1 to the model
+	       return mav;
+	   }
+
+	   @PostMapping("updateLeaveType")
+	   public ModelAndView updateLeaveType(@ModelAttribute AddLeaveType updateLeaveType) {
+	       adminService.updateLeaveType(updateLeaveType);
+	       ModelAndView mav = new ModelAndView("redirect:/admin/adminleavetypesec");
+	       return mav;
+	   }
 	   
 	   
 	   
@@ -282,6 +297,8 @@ public class AdminController {
 	       ModelAndView mav = new ModelAndView("redirect:/admin/admindeptsec"); // Specify the URL to redirect to
 	       return mav;
 	   }
+	   
+	   
 
 
 }

@@ -2,6 +2,7 @@ package com.jfsd.microservices.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.jfsd.microservices.model.AddDepartment;
 import com.jfsd.microservices.model.AddLeaveType;
@@ -60,4 +61,9 @@ public interface AdminService {
 	 
 	 public AddDepartment updateDepartment(AddDepartment updatedDepartment);
 
+	public AddLeaveType findByLeaveid(Long leaveid);
+
+	public AddLeaveType updateLeaveType(AddLeaveType updateLeaveType);
+
+	
 }

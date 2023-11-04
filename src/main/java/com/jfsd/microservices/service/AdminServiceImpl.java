@@ -223,8 +223,30 @@ public class AdminServiceImpl implements AdminService{
         }
 	}
 
-	
+	@Override
+	public AddLeaveType findByLeaveid(Long leaveid) {
+		// TODO Auto-generated method stub
+		return addLeaveTypeRepository.findByLeaveid(leaveid);
+	}
 
-	
-	
+	@Override
+	public AddLeaveType updateLeaveType(AddLeaveType updateLeaveType) {
+		// TODO Auto-generated method stub
+		
+		AddLeaveType existingleavetype = addLeaveTypeRepository.findByLeaveid(updateLeaveType.getLeaveid());
+		
+		if (existingleavetype != null) {
+            // Update the properties of the existing department with the values from the updated department
+			existingleavetype.setLeavetype(updateLeaveType.getLeavetype());
+			existingleavetype.setDescription(updateLeaveType.getDescription());
+			
+            addLeaveTypeRepository.save(existingleavetype);
+
+            return existingleavetype; // Return the updated department
+        } else {
+           
+            return null;
+        }
+	}
+
 }

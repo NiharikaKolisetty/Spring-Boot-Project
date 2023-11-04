@@ -110,7 +110,9 @@ a.delete-button:hover, a.update-button:hover {
                     <td>${leavetype1.createdDate}</td>
                     <td>
             <a href="<c:url value='deleteLeaveType/${leavetype1.leaveid}' />" class="delete-button">Delete</a>
-            <a href="#" class="update-button">Update</a> <!-- Link to update department -->
+            <br>
+            <br>
+            <a href="<c:url value='updateLeaveType/${leavetype1.leaveid}' />" class="update-button">Update</a>
         </td>
                 </tr>
             </c:forEach>
